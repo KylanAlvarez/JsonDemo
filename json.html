@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Load and Style JSON Data</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .person {
+      background-color: #f9f9f9;
+      border: 1px solid #eaeaea;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .name {
+      color: #333;
+      font-size: 18px;
+      margin: 0;
+    }
+    .email {
+      color: #555;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div id="jsonContent">JSON content will be loaded here...</div>
+
+  <script>
+    function loadJSON() {
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "data.json", true);
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          var jsonData = JSON.parse(xhr.responseText);
+          var peopleHTML = '';
+          jsonData.forEach(function(person) {
+            peopleHTML += '<div class="person"><p class="name">' + person.name + '</p><p class="email">' + person.email + '</p></div>';
+          });
+          document.getElementById("jsonContent").innerHTML = peopleHTML;
+        }
+      };
+      xhr.send();
+    }
+    window.onload = loadJSON;
+  </script>
+</body>
+</html>
